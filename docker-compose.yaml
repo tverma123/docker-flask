@@ -1,7 +1,28 @@
 version: '3'
 services: 
   flask: 
-    image: flask-app-1
+    build: 
+     context: .
+     dockerfile: Dockerfile
     ports: 
       - "8081:5000"
+    networks:
+      - flask-network-1
     container_name: flask-container-1
+    image: flask_app_1
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD: 
+    volumes:
+      - "db-data:/var/lib/postgressql/data"
+    networks:
+      - database-network
+    
+networks:
+  flask-network-1:
+     driver: bridge
+  databse-network:
+     driver: bridge
+  
